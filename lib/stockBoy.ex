@@ -1,4 +1,4 @@
-defmodule StockBoy do
+defmodule DataBoy do
   @stock_db %{protocol: "http", hostname: "localhost",database: "couchdb_connector_dev", port: 5984}
 
   def stock(name) do
