@@ -18,17 +18,22 @@ defmodule DataBoy do
   end
 
   def add(name) do
-    jsonData = stock_json(name)
-    Couchdb.Connector.Writer.create_generate(@stock_db, jsonData)
+    Couchdb.Connector.Writer.create_generate(@stock_db, stock_json(name))
+  end
+
+  def stock_twits(name) do
+    HTTPoison.get!("https://api.stocktwits.com/api/2/streams/symbol/" <> name <> ".json")
   end
 end
 
-##parse through JSON data, figure out why we have those /t/ around shit, get it to get the price
-##database stuff?
 ## :l, :e, :l_fix, :l_cur, :s, :ltt, :lt, :lt_dts, :c, :c_fix, :cp, :cp_fix, :ccol, :pcls_fix, :el, :el_fix, :el_cur, :elt, :ec, :ec_fix, :ecp, :ecp_fix, :eccol, :chg, :div, :yld]
 
 #stock_db = %{protocol: "http", hostname: "localhost",database: "couchdb_connector_dev", port: 5984}
 ##(making a new database) Couchdb.Connector.Storage.storage_up(stock_db)
 #Couchdb.Connector.Writer.create(db_props, "some_json_data")
 
-# db does not like my json data pls Kappa //
+# views? Queries? not sure
+#http://127.0.0.1:5984/_utils/
+
+##stocktwits
+#https://api.stocktwits.com/api/2/streams/symbol/SGYP.json
