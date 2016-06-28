@@ -1,5 +1,5 @@
 defmodule DataBoy do
-  @stock_db %{protocol: "http", hostname: "localhost",database: "couchdb_connector_dev", port: 5984}
+  @stock_db %{protocol: "http", hostname: "localhost",database: "stocks", port: 5984}
 
   def stock(name) do
     HTTPoison.get!("http://www.google.com/finance/info?q=" <> name).body
@@ -19,11 +19,17 @@ defmodule DataBoy do
 
   def add(name) do
     Couchdb.Connector.Writer.create_generate(@stock_db, stock_json(name))
+    Couchdb.Connector.Writer.create_generate(@stock_db, stock_twits(name))
   end
 
   def stock_twits(name) do
-    HTTPoison.get!("https://api.stocktwits.com/api/2/streams/symbol/" <> name <> ".json")
+    HTTPoison.get!("https://api.stocktwits.com/api/2/streams/symbol/" <> name <> ".json").body
   end
+
+  def init_db() do
+    Couchdb.Connector.Storage.storage_up(@stock_db)
+  end
+
 end
 
 ## :l, :e, :l_fix, :l_cur, :s, :ltt, :lt, :lt_dts, :c, :c_fix, :cp, :cp_fix, :ccol, :pcls_fix, :el, :el_fix, :el_cur, :elt, :ec, :ec_fix, :ecp, :ecp_fix, :eccol, :chg, :div, :yld]
