@@ -17,19 +17,18 @@ defmodule DataBoy do
     |>String.replace("]", "")
   end
 
+  def stock_twits(name) do
+    HTTPoison.get!("https://api.stocktwits.com/api/2/streams/symbol/" <> name <> ".json").body
+  end
+
   def add(name) do
     Couchdb.Connector.Writer.create_generate(@stock_db, stock_json(name))
     Couchdb.Connector.Writer.create_generate(@stock_db, stock_twits(name))
   end
 
-  def stock_twits(name) do
-    HTTPoison.get!("https://api.stocktwits.com/api/2/streams/symbol/" <> name <> ".json").body
-  end
-
   def init_db() do
     Couchdb.Connector.Storage.storage_up(@stock_db)
   end
-
 end
 
 ## :l, :e, :l_fix, :l_cur, :s, :ltt, :lt, :lt_dts, :c, :c_fix, :cp, :cp_fix, :ccol, :pcls_fix, :el, :el_fix, :el_cur, :elt, :ec, :ec_fix, :ecp, :ecp_fix, :eccol, :chg, :div, :yld]
