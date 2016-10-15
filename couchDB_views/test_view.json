@@ -1,0 +1,12 @@
+##test function
+function(doc) {
+    var stock;
+    var data;
+
+    if (doc.t) {
+
+            stock = doc.t;
+	          data = {"date" : doc.lt, "price" : doc.l}
+            emit(stock, data);
+    }
+}

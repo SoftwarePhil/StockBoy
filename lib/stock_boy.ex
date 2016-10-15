@@ -1,0 +1,2 @@
+defmodule StockBoy do
+end
